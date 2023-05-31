@@ -375,6 +375,10 @@ void MisbitFontAssembler::Application::Assemble()
 											{
 												token_type = TokenType::SpacingType;
 											}
+											else if (t == "SKIP")
+											{
+												token_type = TokenType::Skip;
+											}
 											token = "";
 											u_token = "";
 											break;
@@ -444,6 +448,10 @@ void MisbitFontAssembler::Application::Assemble()
 											else if (t == "SPACING_TYPE")
 											{
 												token_type = TokenType::SpacingType;
+											}
+											else if (t == "SKIP")
+											{
+												token_type = TokenType::Skip;
 											}
 											error = true;
 											error_type = ErrorType::MissingOperand;
@@ -636,6 +644,34 @@ void MisbitFontAssembler::Application::Assemble()
 									}
 									break;
 								}
+								case TokenType::Skip:
+								{
+									uint16_t skip_count = ProcessUInt16(false, false);
+									if (error)
+									{
+										break;
+									}
+									if (!skip_count)
+									{
+										IssueWarning("You must specify the skip count to be at least 1.  This statement has no effect.");
+									}
+									else
+									{
+										size_t font_character_data_size = current_max_font_size.width * current_max_font_size.height * (palette_format + 1) / 8;
+										if ((current_max_font_size.width * current_max_font_size.height * (palette_format + 1)) % 8 != 0)
+										{
+											++font_character_data_size;
+										}
+										FontCharacterData BlankCharacter;
+										BlankCharacter.character.resize(font_character_data_size);
+										BlankCharacter.width = 0;
+										for (; skip_count; --skip_count)
+										{
+											FontCharacterTable.push_back(BlankCharacter);
+										}
+									}
+									break;
+								}
 							}
 						}
 						break;
@@ -651,6 +687,7 @@ void MisbitFontAssembler::Application::Assemble()
 									case TokenType::CurrentFontWidth:
 									case TokenType::PaletteFormat:
 									case TokenType::MaxFontSize:
+									case TokenType::Skip:
 									{
 										if (!isdigit(static_cast<unsigned char>(line_data[i])))
 										{
@@ -1730,6 +1767,11 @@ void MisbitFontAssembler::Application::Assemble()
 							case TokenType::SpacingType:
 							{
 								fmt::print("SPACING_TYPE\n");
+								break;
+							}
+							case TokenType::Skip:
+							{
+								fmt::print("SKIP\n");
 								break;
 							}
 						}

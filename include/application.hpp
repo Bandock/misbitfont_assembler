@@ -36,7 +36,7 @@ namespace MisbitFontAssembler
 	enum class TokenType
 	{
 		None, CurrentFontWidth, Draw, DrawMode, FontName, Language, MaxFontSize, PaletteFormat,
-		SpacingType
+		SpacingType, Skip
 	};
 
 	enum class ErrorType
@@ -72,9 +72,9 @@ namespace MisbitFontAssembler
 			size_t error_count;
 			size_t warning_count;
 			std::vector<std::string> Args;
-			const std::array<std::string, 8> TokenList = {
+			const std::array<std::string, 9> TokenList = {
 				"CURRENT_FONT_WIDTH", "DRAW", "DRAW_MODE", "FONT_NAME", "LANGUAGE",
-				"MAX_FONT_SIZE", "PALETTE_FORMAT", "SPACING_TYPE"
+				"MAX_FONT_SIZE", "PALETTE_FORMAT", "SPACING_TYPE", "SKIP"
 			};
 			const std::array<std::string, 4> DrawModeList = {
 				"BINARY", "OCTAL", "DECIMAL", "HEXADECIMAL"
@@ -85,7 +85,7 @@ namespace MisbitFontAssembler
 			const std::array<std::string, 2> ToggleList = {
 				"OFF", "ON"
 			};
-			const VersionData Version = { 0, 1 };
+			const VersionData Version = { 0, 2 };
 			DrawMode current_draw_mode;
 			uint8_t palette_format;
 			FontSizeData current_max_font_size;

@@ -1,4 +1,4 @@
-# MisbitFont Assembler Manual (Version 0.1)
+# MisbitFont Assembler Manual (Version 0.2)
 
 ## Getting Started
 To run this program, simply use the following syntax:
@@ -74,6 +74,7 @@ All commands are case insensitive similar to how assemblers for programming work
 |`max_font_size`|Sets the maximum font dimensions possible for all the fonts.  Maximum possible width and height is 256.|`[1-256]x[1-256]`|
 |`palette_format`|Selects the palette format for the resulting MisbitFont file and how drawing is handled.  Palette format is represented in bits per pixel.|`1-8`|
 |`spacing_type`|Specifies the spacing type to use for the font file.|`monospace`, `variable`|
+|`skip`|Inserts a specified number of blank characters.|`1 - 65535`|
 
 ## Draw Modes
 |Mode |Description |
